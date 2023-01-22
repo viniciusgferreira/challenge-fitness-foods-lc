@@ -3,13 +3,13 @@
 ## Antes de começar
 [x] Levantar todas as etapas e criar o plano de ação (este Action-Plan)
 [x] Criar o Repositório no Github com os requisitos
-[ ] Configurar o ambiente de desenvolvimento no Vscode
+[x] Configurar o ambiente de desenvolvimento no Vscode
 
 
 ## Criar o Banco de dados
-[ ] Criar e configurar a conta no Atlas
-[ ] Criar o DB e configurar acessos e links
-[ ] .env com dados de acesso   
+[x] Criar e configurar a conta no Atlas
+[x] Criar o DB e configurar acessos e links
+[x] .env com dados de acesso
 [ ] Criar o Model com base no formato disponibilizado
 [ ] Importar os produtos
 
@@ -27,6 +27,10 @@
 
 ## CRON
 [ ] Criar Collection para historico de importacao
+[x] Criar processo de download dos arquivos
+[ ] Extrair os arquivos
+[ ] Testar quais produtos têm atualizações
+[ ] Add campos imported_t e status
 [ ] Criar cron job
 [ ] Criar Model de importações
 [ ] Limitar importação para 100 produtos
