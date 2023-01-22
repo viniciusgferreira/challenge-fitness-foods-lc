@@ -1,0 +1,23 @@
+{
+  "name": "challenge-fitness-foods-lc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/viniciusgferreira/challenge-fitness-foods-lc.git"
+  },
+  "keywords": [],
+  "author": "viniciusgferreira <vinicius.gf@outlook.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/viniciusgferreira/challenge-fitness-foods-lc/issues"
+  },
+  "homepage": "https://github.com/viniciusgferreira/challenge-fitness-foods-lc#readme",
+  "devDependencies": {
+    "eslint": "^8.32.0"
+  }
+}
