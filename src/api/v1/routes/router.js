@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { controller_deleteProduct } from '../controllers/deleteProduct.controller.js';
 import { controller_getProductByCode } from '../controllers/getProductByCode.controller.js';
 import { controller_getProductsList } from '../controllers/getProductsList.controller.js';
 import { controller_setProduct } from '../controllers/setProduct.controller.js';
@@ -18,3 +19,6 @@ router.get('/products', controller_getProductsList);
 
 // ADD NEW PRODUCT
 router.put('/products/:code', controller_setProduct);
+
+// MOVE PRODUCT TO TRASH
+router.delete('/products/:code', controller_deleteProduct);
