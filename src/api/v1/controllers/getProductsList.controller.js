@@ -3,5 +3,9 @@ import { getProductsList } from '../services/getProductsList.js';
 
 export async function controller_getProductsList(req, res) {
   const products = await getProductsList();
-  !products ? res.status(400).json('no products in database') : res.json(products);
+  if (products.length > 0) {
+    res.json(products);
+  } else {
+    res.status(500).json({ 'msg': 'database empty' });
+  }
 }

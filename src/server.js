@@ -1,6 +1,6 @@
 import express from 'express';
 import { MongoClient, ServerApiVersion } from 'mongodb';
-import { router } from './routes/router.js';
+import { router } from './api/v1/routes/router.js';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -27,4 +27,4 @@ app.use(express.json());
 // ROUTER
 app.use('/v1', router);
 
-app.listen(PORT, () => console.log(`API Fitness Foods Products is running on port http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`API Fitness Foods is running on port http://localhost:${PORT}`));

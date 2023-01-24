@@ -1,4 +1,4 @@
-import { collectionProducts } from '../server.js';
+import { collectionProducts } from '../../../server.js';
 
 export const getProduct = async (code) => {
 
