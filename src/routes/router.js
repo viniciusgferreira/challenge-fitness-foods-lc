@@ -1,4 +1,7 @@
 import { Router } from 'express';
+import { controller_getProductByCode } from '../controllers/getProductByCode.controller.js';
+import { controller_getProductsList } from '../controllers/getProductsList.controller.js';
+import { setProduct } from '../controllers/setProduct.controller.js';
 
 export const router = Router();
 
@@ -8,7 +11,10 @@ router.get('/', (req, res) => {
 });
 
 // GET PRODUCT BY CODE
-//router.get('/products/:code', getProductByCode);
+router.get('/products/:code', controller_getProductByCode);
 
-// GET PRODUCT BY CODE
-//router.get('/products', getAllProducts);
+// GET PRODUCTS LIST
+router.get('/products', controller_getProductsList);
+
+// ADD NEW PRODUCT
+router.put('/products/:code', setProduct);
