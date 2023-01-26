@@ -26,7 +26,7 @@
 [ ] Criar a rota GET /products - Listar todos os produtos da base de dados, adicionar sistema de paginação para não sobrecarregar o REQUEST
 
 ## CRON
-[ ] Criar Collection para historico de importacao
+[x] Criar Collection para historico de importacao
 [x] Criar processo de download dos arquivos
 [x] Extrair os arquivos
 [ ] Testar quais produtos têm atualizações
