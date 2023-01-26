@@ -14,27 +14,27 @@
 [ ] Importar os produtos
 
 ## API REST
-[ ] Configurar o projeto npm e instalar as dependencias que serão usadas
-[ ] Iniciar o Servidor com Express.js
-[ ] Criar a conexão com o DB
-[ ] Criar a estrutura de diretórios
-[ ] Criar um router para controlar as URI's
+[x] Configurar o projeto npm e instalar as dependencias que serão usadas
+[x] Iniciar o Servidor com Express.js
+[x] Criar a conexão com o DB
+[x] Criar a estrutura de diretórios
+[x] Criar um router para controlar as URI's
 [ ] Criar a rota GET (/) com: Detalhes da API, se conexão leitura e escritura com a base de dados está OK, horário da última vez que o CRON foi executado, tempo online e uso de memória
-[ ] Criar a rota PUT /products/:code - para cadastrar atualizações do Projeto Web
-[ ] Criar a rota DELETE /products/:code - para mudar o status do produto para trash
-[ ] Criar a rota GET /products/:code - para listar as informações de um único produto
+[X] Criar a rota PUT /products/:code - para cadastrar atualizações do Projeto Web
+[x] Criar a rota DELETE /products/:code - para mudar o status do produto para trash
+[x] Criar a rota GET /products/:code - para listar as informações de um único produto
 [ ] Criar a rota GET /products - Listar todos os produtos da base de dados, adicionar sistema de paginação para não sobrecarregar o REQUEST
 
 ## CRON
 [ ] Criar Collection para historico de importacao
 [x] Criar processo de download dos arquivos
-[ ] Extrair os arquivos
+[x] Extrair os arquivos
 [ ] Testar quais produtos têm atualizações
 [ ] Add campos imported_t e status
 [ ] Criar cron job
 [ ] Criar Model de importações
 [ ] Limitar importação para 100 produtos
-[ ] Testar com tempo de 1min
+[ ] Testar com tempo de 10min
 [ ] Configurar para importar a cada 24h - 3h da manhã onde o tráfego é baixo
 
 ## Documentação
