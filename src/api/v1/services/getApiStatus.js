@@ -1,4 +1,4 @@
-import { mongodbClient } from '../../../server.js';
+import { mongodbClient } from './../../../utils/mongodbUtil.js';
 
 // SAVE CONNECTION STATUS (isConnected not available anymore)
 let isConnected;
