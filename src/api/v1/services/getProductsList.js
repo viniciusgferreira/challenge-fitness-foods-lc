@@ -1,4 +1,4 @@
-import { collectionProducts } from '../../../server.js';
+import { collectionProducts } from '../../../utils/mongodbUtil.js';
 
 export const getProductsList = async () => {
 
