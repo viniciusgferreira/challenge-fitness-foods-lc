@@ -10,7 +10,7 @@
 [x] Criar e configurar a conta no Atlas
 [x] Criar o DB e configurar acessos e links
 [x] .env com dados de acesso
-[ ] Criar o Model com base no formato disponibilizado
+[x] Criar o Model com base no formato disponibilizado
 [ ] Importar os produtos
 
 ## API REST
@@ -29,11 +29,10 @@
 [x] Criar Collection para historico de importacao
 [x] Criar processo de download dos arquivos
 [x] Extrair os arquivos
-[ ] Testar quais produtos têm atualizações
-[ ] Add campos imported_t e status
+[x] Add campos imported_t e status
 [ ] Criar cron job
-[ ] Criar Model de importações
-[ ] Limitar importação para 100 produtos
+[x] Criar Model de importações
+[x] Limitar importação para 100 produtos
 [ ] Testar com tempo de 10min
 [ ] Configurar para importar a cada 24h - 3h da manhã onde o tráfego é baixo
 
