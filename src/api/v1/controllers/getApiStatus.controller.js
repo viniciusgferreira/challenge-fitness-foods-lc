@@ -1,7 +1,6 @@
-import { isConnected } from '../../../server.js';
+import { getApiStatus } from '../services/getApiStatus.js';
 
 export async function controller_getApiStatus(req, res) {
-  const status = isConnected;
-  const apiStatus = { 'mongodbConnected': status };
+  const apiStatus = await getApiStatus();
   res.json(apiStatus);
 }
