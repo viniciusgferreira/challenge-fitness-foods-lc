@@ -3,9 +3,10 @@ import fs from 'fs';
 import path from 'path';
 import * as readline from 'readline/promises';
 import * as zlib from 'zlib';
-import { createProductObj } from '../api/models/createProductObj.js';
-import { createImportInfo } from '../api/models/createImportInfo.js';
+import { createProductObj } from '../api/v1/models/createProductObj.js';
+import { saveImportInfo } from './saveImportInfo.js';
 
+const tmpDir = process.cwd() + '/src/utils/tmp/';
 const baseURL = 'https://challenges.coode.sh/food/data/json/';
 const indexFile = 'index.txt';
 const importInfo = {};
@@ -13,13 +14,12 @@ const importInfo = {};
 // SET TIME OF IMPORT
 const imported_t = new Date().toISOString();
 
-
-await importProducts(); // APAGAR
+//await importProducts(); // APAGAR
 
 
 async function downloadFile(url) {
   const filename = path.basename(url);
-  const fileStream = fs.createWriteStream(filename);
+  const fileStream = fs.createWriteStream(tmpDir + filename);
   console.log(`trying to download ${filename}`);
 
   return new Promise((resolve, reject) => {
@@ -55,7 +55,7 @@ async function getListToDownload(file) {
 
     try {
       const readInterface = readline.createInterface({
-        input: fs.createReadStream(file)
+        input: fs.createReadStream(tmpDir + file)
       });
 
       readInterface.on('line', function (line) {
@@ -82,8 +82,8 @@ function createDownloadRequests(list) {
 
 async function extractFile(filename) {
 
-  const inputFile = fs.createReadStream(filename);
-  const outputFile = fs.createWriteStream(filename.substring(0, filename.length - 3));
+  const inputFile = fs.createReadStream(tmpDir + filename);
+  const outputFile = fs.createWriteStream(tmpDir + filename.substring(0, filename.length - 3));
 
   return new Promise((resolve) => {
     inputFile.pipe(zlib.createGunzip()).pipe(outputFile);
@@ -105,8 +105,8 @@ async function get100ProductsFromFile(file) {
       const status = 'published';
       console.log('opening ' + file);
       let lineCounter = 0;
-      const readableFileStream = fs.createReadStream(file);
-      const writableFile = '100Products-' + file;
+      const readableFileStream = fs.createReadStream(tmpDir + file);
+      const writableFile = tmpDir + '100Products-' + file;
       const readInterface = readline.createInterface({ input: readableFileStream });
 
       readInterface.on('line', async function (productObj) {
@@ -172,24 +172,15 @@ export default async function importProducts() {
     await Promise.all(requestProducts);
 
     // UPDATE TO DB IF EXISTS OR CREATE NEW PRODUCT
+    //importFromFiles();
 
     // SAVE IMPORT INFO
     importInfo.imported_t = imported_t;
-    createImportInfo(importInfo);
+    importInfo.imported_files = list;
+    await saveImportInfo(importInfo);
 
-    console.log(importInfo);
     console.log('End of import');
   } catch (err) {
     console.log(err.message);
   }
-
-
-  //import100Products(indexFile);
-
-
-
-
-  //lookForChanges();
-  //addToDatabase();
-
 }
