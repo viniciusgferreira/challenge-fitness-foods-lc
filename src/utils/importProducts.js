@@ -3,9 +3,15 @@ import fs from 'fs';
 import path from 'path';
 import * as readline from 'readline/promises';
 import * as zlib from 'zlib';
+import { createProductObj } from '../api/models/createProductObj.js';
+import { createImportInfo } from '../api/models/createImportInfo.js';
 
 const baseURL = 'https://challenges.coode.sh/food/data/json/';
 const indexFile = 'index.txt';
+const importInfo = {};
+
+// SET TIME OF IMPORT
+const imported_t = new Date().toISOString();
 
 
 await importProducts(); // APAGAR
@@ -42,16 +48,6 @@ async function downloadFile(url) {
 
 }
 
-function lookForChanges() {
-
-}
-
-function extractFiles() {
-
-}
-function addToDatabase() {
-
-}
 
 async function getListToDownload(file) {
   const list = [];
@@ -101,32 +97,42 @@ async function extractFile(filename) {
 
 }
 
-function import100Products(file) {
-  file = file.substring(0, file.length - 3);
-
+async function get100ProductsFromFile(file) {
+  const products = [];
   return new Promise((resolve, reject) => {
-
-    const importedTime = new Date().toISOString();
-    let productCounter = 0;
     try {
-      const readInterface = readline.createInterface({
-        input: fs.createReadStream(file)
-      });
+      // SET STATUS
+      const status = 'published';
+      console.log('opening ' + file);
+      let lineCounter = 0;
+      const readableFileStream = fs.createReadStream(file);
+      const writableFile = '100Products-' + file;
+      const readInterface = readline.createInterface({ input: readableFileStream });
 
-      readInterface.on('line', function (product) {
-        console.log('importing 100 products of ' + file);
-        product.imported_t = importedTime;
-        console.log(product);
-        productCounter++;
-        if (productCounter >= 100) { readInterface.close(); }
+      readInterface.on('line', async function (productObj) {
+        if (lineCounter >= 2) {
+          fs.writeFileSync(writableFile, products.toLocaleString(), (err) => {
+            if (err) { console.log(err); }
+          });
+          readInterface.close();
+          readableFileStream.close();
+        } else {
+          // FORMAT JSON PRODUCT
+          const productJSON = JSON.parse(productObj);
+          productJSON.imported_t = imported_t;
+          productJSON.status = status;
+          const formatedProduct = await createProductObj(productJSON);
+          products.push(JSON.stringify(formatedProduct));
+          lineCounter++;
+        }
       });
 
       readInterface.on('close', () => {
-        resolve(true);
+        return resolve(products);
       });
 
-    } catch (err) {
-      reject(err);
+    } catch (error) {
+      return reject(error);
     }
   });
 }
@@ -135,6 +141,8 @@ export default async function importProducts() {
 
   try {
     console.log('Initiating scheduled import to update Products database');
+    console.log('imported time: ' + imported_t);
+
     // DOWNLOAD INDEX FILE
     //await downloadFile(baseURL + indexFile);
     const list = await getListToDownload(indexFile, baseURL);
@@ -144,24 +152,43 @@ export default async function importProducts() {
 
     // EXTRACT FILES
     const requestExtraction = [];
+    const extractedList = [];
     for (let i = 0; i < list.length; i++) {
       console.log('extracting ' + list[i]);
       requestExtraction.push(extractFile(list[i]));
+      // REMOVE .gz extension from list
+      extractedList.push(list[i].substring(0, list[i].length - 3));
     }
-
     await Promise.all(requestExtraction);
     console.log('extraction complete');
+
+    // GET 100 PRODUCTS
+    const requestProducts = [];
+    extractedList.forEach(file => {
+      console.log('getting first 100 products from ' + file);
+      requestProducts.push(get100ProductsFromFile(file));
+    });
+
+    await Promise.all(requestProducts);
+
+    // UPDATE TO DB IF EXISTS OR CREATE NEW PRODUCT
+
+    // SAVE IMPORT INFO
+    importInfo.imported_t = imported_t;
+    createImportInfo(importInfo);
+
+    console.log(importInfo);
+    console.log('End of import');
   } catch (err) {
     console.log(err.message);
   }
 
 
-  await import100Products(indexFile);
+  //import100Products(indexFile);
 
 
 
 
-  console.log('end of import');
   //lookForChanges();
   //addToDatabase();
 
