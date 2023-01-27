@@ -10,10 +10,6 @@ import { importFromFiles } from './importFromFiles.js';
 const tmpDir = process.cwd() + '/src/utils/tmp/';
 const baseURL = 'https://challenges.coode.sh/food/data/json/';
 const indexFile = 'index.txt';
-const importInfo = {};
-
-// SET TIME OF IMPORT
-const imported_t = new Date().toISOString();
 
 async function downloadFile(url) {
   const filename = path.basename(url);
@@ -123,6 +119,10 @@ async function get100ProductsFromFile(extractedfilename) {
 }
 
 export default async function importProducts() {
+  const importInfo = {};
+
+  // SET TIME OF IMPORT
+  const imported_t = new Date().toISOString();
 
   try {
     console.log('Initiating scheduled import to update Products database');
