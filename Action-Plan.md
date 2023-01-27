@@ -23,7 +23,7 @@
 [X] Criar a rota PUT /products/:code - para cadastrar atualizações do Projeto Web
 [x] Criar a rota DELETE /products/:code - para mudar o status do produto para trash
 [x] Criar a rota GET /products/:code - para listar as informações de um único produto
-[ ] Criar a rota GET /products - Listar todos os produtos da base de dados, adicionar sistema de paginação para não sobrecarregar o REQUEST
+[x] Criar a rota GET /products - Listar todos os produtos da base de dados, adicionar sistema de paginação para não sobrecarregar o REQUEST
 
 ## CRON
 [x] Criar Collection para historico de importacao
@@ -34,11 +34,8 @@
 [x] Criar Model de importações
 [x] Limitar importação para 100 produtos
 [x] Testar com tempo de 10min
-[x] Configurar para importar a cada 24h - 3h30 da manhã onde o tráfego é baixo
+[x] Configurar para importar a cada 24h - 3h30 da manhã onde o tráfego é baixo   
 
 ## Documentação
 [ ] Criar Readme com instruções de configuração e build do projeto
 
-## Testes Unitários
-[ ] Importar o Jest
-[ ] Criar testes para cada Endpoint
