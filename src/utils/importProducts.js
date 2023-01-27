@@ -15,9 +15,6 @@ const importInfo = {};
 // SET TIME OF IMPORT
 const imported_t = new Date().toISOString();
 
-//await importProducts(); // APAGAR
-
-
 async function downloadFile(url) {
   const filename = path.basename(url);
   const fileStream = fs.createWriteStream(tmpDir + filename);
@@ -103,25 +100,22 @@ async function get100ProductsFromFile(extractedfilename) {
   let lineCounter = 0;
 
 
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const rl = readline.createInterface({
       input: fs.createReadStream(tmpDir + extractedfilename)
     });
 
     rl.on('line', (obj) => {
-      if (lineCounter < 4) {
+      if (lineCounter < 100) {
         lineCounter++;
         products.push(JSON.parse(obj));
-        console.log('lendo linha');
       } else {
-        console.log('close linha');
         rl.close();
         rl.removeAllListeners();
       }
     });
 
     rl.on('close', () => {
-      console.log('close event');
       return resolve(products);
     });
 
@@ -135,7 +129,7 @@ export default async function importProducts() {
     console.log('imported time: ' + imported_t);
 
     // DOWNLOAD INDEX FILE
-    //await downloadFile(baseURL + indexFile);
+    await downloadFile(baseURL + indexFile);
     const list = await getListToDownload(indexFile, baseURL);
     // DOWNLOAD ALL FILES
     const requests = createDownloadRequests(list);
@@ -155,10 +149,9 @@ export default async function importProducts() {
 
     // GET 100 PRODUCTS
     let productsToImport = [];
+    console.log('getting products ready to import...');
     for (let i = 0; i < extractedList.length; i++) {
-      console.log('getting first 100 products from ' + extractedList[i]);
       const productsPerFile = await get100ProductsFromFile(extractedList[i]);
-      console.log('finished get 100 from ' + extractedList[i]);
       for (let i = 0; i < productsPerFile.length; i++) {
         productsPerFile[i].imported_t = imported_t;
         productsPerFile[i].status = 'published';
@@ -166,7 +159,7 @@ export default async function importProducts() {
         productsToImport.push(prodObj);
       }
     }
-    console.log(productsToImport.length + ' products to be imported');
+    console.log(productsToImport.length + ' total products to be imported');
 
     // UPDATE TO DB IF EXISTS OR CREATE NEW PRODUCT
     await importFromFiles(productsToImport);
@@ -176,8 +169,23 @@ export default async function importProducts() {
     importInfo.imported_files = list;
     await saveImportInfo(importInfo);
 
-    console.log('End of import');
+    // ERASE ALL FILES
+    cleanFiles();
+    console.log('End of import cron job');
   } catch (err) {
     console.log(err.message);
   }
+}
+
+function cleanFiles() {
+  fs.unlinkSync(tmpDir + indexFile);
+  const jsonsInDir = fs.readdirSync(tmpDir).filter(file => path.extname(file) === '.json');
+  jsonsInDir.forEach(filename => {
+    fs.unlinkSync(tmpDir + filename);
+  });
+
+  const gzInDir = fs.readdirSync(tmpDir).filter(file => path.extname(file) === '.gz');
+  gzInDir.forEach(filename => {
+    fs.unlinkSync(tmpDir + filename);
+  });
 }
