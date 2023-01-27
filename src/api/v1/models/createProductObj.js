@@ -3,13 +3,13 @@ export async function createProductObj(product) {
     let productObj = {};
     try {
       productObj = {
-        'code': product.code,
+        'code': parseInt(product.code),
         'status': product.status,
         'imported_t': product.imported_t,
         'url': product.url,
         'creator': product.creator,
-        'created_t': product.created_t,
-        'last_modified_t': product.last_modified_t,
+        'created_t': parseInt(product.created_t),
+        'last_modified_t': parseInt(product.last_modified_t),
         'product_name': product.product_name,
         'quantity': product.quantity,
         'brands': product.brands,
@@ -21,8 +21,8 @@ export async function createProductObj(product) {
         'ingredients_text': product.ingredients_text,
         'traces': product.traces,
         'serving_size': product.serving_size,
-        'serving_quantity': product.serving_quantity,
-        'nutriscore_score': product.nutriscore_score,
+        'serving_quantity': product.serving_quantity ? parseFloat(product.serving_quantity) : '',
+        'nutriscore_score': product.nutriscore_score ? parseInt(product.nutriscore_score) : '',
         'nutriscore_grade': product.nutriscore_grade,
         'main_category': product.main_category,
         'image_url': product.image_url
