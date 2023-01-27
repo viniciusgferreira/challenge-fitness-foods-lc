@@ -1,10 +1,11 @@
-/* eslint-disable no-async-promise-executor */
+import { mongodbClient } from './mongodbUtil.js';
 
-import { collectionImport } from './mongodbUtil.js';
 
 export async function saveImportInfo(importObj) {
 
+  const mongodbUtilConnection = await mongodbClient.connect();
   console.log('saving import info in database');
-  return await collectionImport.insertOne(importObj);
-
+  const inserted = await mongodbUtilConnection.db('fitnessfoodsdb').collection('imports').insertOne(importObj);
+  mongodbUtilConnection.close();
+  return inserted;
 }
