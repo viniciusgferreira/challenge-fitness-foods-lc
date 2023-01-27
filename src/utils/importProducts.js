@@ -12,7 +12,6 @@ const tmpDir = process.cwd() + '/src/utils/tmp/';
 const baseURL = 'https://challenges.coode.sh/food/data/json/';
 const indexFile = 'index.txt';
 
-await importProducts();
 export default async function importProducts() {
   const importInfo = {};
 
