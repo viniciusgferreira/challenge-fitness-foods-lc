@@ -1,27 +1,14 @@
-import { mongodbClient } from './../../../utils/mongodbUtil.js';
-
-// SAVE CONNECTION STATUS (isConnected not available anymore)
-let isConnected;
-export function ConfigApiStatus() {
-
-  mongodbClient.on('connectionCreated', () => {
-    console.log('mongodb connected');
-    isConnected = true;
-  });
-
-  mongodbClient.on('connectionClosed', () => {
-    console.log('mongodb disconnected');
-    isConnected = false;
-  });
-}
+import { mongodbServerConnection } from '../../../server.js';
 
 export async function getApiStatus() {
 
-  const hello = await mongodbClient.db('admin').command({ hello: 1 });
+  const hello = await mongodbServerConnection.db('admin').command({ hello: 1 });
+  let connection = true;
+  if (!hello) { connection = false; }
   const apiStatus = {
     'uptimeSeconds': process.uptime(),
     'memoryUsageBytes': process.memoryUsage(),
-    'mongodbConnection': isConnected,
+    'mongodbConnection': connection,
     'mongoIsWritable': hello.isWritablePrimary,
   };
   return apiStatus;
