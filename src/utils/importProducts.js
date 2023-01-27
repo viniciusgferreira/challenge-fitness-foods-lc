@@ -5,6 +5,7 @@ import * as readline from 'readline/promises';
 import * as zlib from 'zlib';
 import { createProductObj } from '../api/v1/models/createProductObj.js';
 import { saveImportInfo } from './saveImportInfo.js';
+import { importFromFiles } from './importFromFiles.js';
 
 const tmpDir = process.cwd() + '/src/utils/tmp/';
 const baseURL = 'https://challenges.coode.sh/food/data/json/';
@@ -97,43 +98,33 @@ async function extractFile(filename) {
 
 }
 
-async function get100ProductsFromFile(file) {
-  const products = [];
+async function get100ProductsFromFile(extractedfilename) {
+  let products = [];
+  let lineCounter = 0;
+
+
   return new Promise((resolve, reject) => {
-    try {
-      // SET STATUS
-      const status = 'published';
-      console.log('opening ' + file);
-      let lineCounter = 0;
-      const readableFileStream = fs.createReadStream(tmpDir + file);
-      const writableFile = tmpDir + '100Products-' + file;
-      const readInterface = readline.createInterface({ input: readableFileStream });
+    const rl = readline.createInterface({
+      input: fs.createReadStream(tmpDir + extractedfilename)
+    });
 
-      readInterface.on('line', async function (productObj) {
-        if (lineCounter >= 2) {
-          fs.writeFileSync(writableFile, products.toLocaleString(), (err) => {
-            if (err) { console.log(err); }
-          });
-          readInterface.close();
-          readableFileStream.close();
-        } else {
-          // FORMAT JSON PRODUCT
-          const productJSON = JSON.parse(productObj);
-          productJSON.imported_t = imported_t;
-          productJSON.status = status;
-          const formatedProduct = await createProductObj(productJSON);
-          products.push(JSON.stringify(formatedProduct));
-          lineCounter++;
-        }
-      });
+    rl.on('line', (obj) => {
+      if (lineCounter < 4) {
+        lineCounter++;
+        products.push(JSON.parse(obj));
+        console.log('lendo linha');
+      } else {
+        console.log('close linha');
+        rl.close();
+        rl.removeAllListeners();
+      }
+    });
 
-      readInterface.on('close', () => {
-        return resolve(products);
-      });
+    rl.on('close', () => {
+      console.log('close event');
+      return resolve(products);
+    });
 
-    } catch (error) {
-      return reject(error);
-    }
   });
 }
 
@@ -163,16 +154,22 @@ export default async function importProducts() {
     console.log('extraction complete');
 
     // GET 100 PRODUCTS
-    const requestProducts = [];
-    extractedList.forEach(file => {
-      console.log('getting first 100 products from ' + file);
-      requestProducts.push(get100ProductsFromFile(file));
-    });
-
-    await Promise.all(requestProducts);
+    let productsToImport = [];
+    for (let i = 0; i < extractedList.length; i++) {
+      console.log('getting first 100 products from ' + extractedList[i]);
+      const productsPerFile = await get100ProductsFromFile(extractedList[i]);
+      console.log('finished get 100 from ' + extractedList[i]);
+      for (let i = 0; i < productsPerFile.length; i++) {
+        productsPerFile[i].imported_t = imported_t;
+        productsPerFile[i].status = 'published';
+        const prodObj = await createProductObj(productsPerFile[i]);
+        productsToImport.push(prodObj);
+      }
+    }
+    console.log(productsToImport.length + ' products to be imported');
 
     // UPDATE TO DB IF EXISTS OR CREATE NEW PRODUCT
-    //importFromFiles();
+    await importFromFiles(productsToImport);
 
     // SAVE IMPORT INFO
     importInfo.imported_t = imported_t;
