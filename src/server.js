@@ -28,5 +28,5 @@ app.use(express.json());
 // ROUTER
 app.use('/v1', router);
 
-app.listen(PORT, () => console.log(`API Fitness Foods is running on http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`API Fitness Foods is running on port:${PORT}`));
 
