@@ -4,10 +4,16 @@
   "description": "",
   "type": "module",
   "main": "src/server.js",
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/server.js",
-    "dev": "node --watch src/server.js",
+    "test": "jest",
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
     "swagger": "node src/api/v1/docs/swagger.js"
   },
   "repository": {
@@ -22,7 +28,9 @@
   },
   "homepage": "https://github.com/viniciusgferreira/challenge-fitness-foods-lc#readme",
   "devDependencies": {
-    "eslint": "^8.32.0"
+    "eslint": "^8.32.0",
+    "jest": "^29.4.1",
+    "supertest": "^6.3.3"
   },
   "dependencies": {
     "dotenv": "^16.0.3",
