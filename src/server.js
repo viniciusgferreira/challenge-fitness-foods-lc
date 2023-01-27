@@ -2,6 +2,8 @@ import express from 'express';
 import { router } from './api/v1/routes/router.js';
 import * as dotenv from 'dotenv';
 import cron from 'node-cron';
+import swaggerUi from 'swagger-ui-express';
+import fs from 'fs';
 import { MongoClient, ServerApiVersion } from 'mongodb';
 import importProducts from './utils/importProducts.js';
 
@@ -24,6 +26,10 @@ const app = express();
 
 //JSON PARSER
 app.use(express.json());
+
+// SWAGGER
+const swaggerFile = JSON.parse(fs.readFileSync('./src/api/v1/docs/swagger_output.json'));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 // ROUTER
 app.use('/v1', router);

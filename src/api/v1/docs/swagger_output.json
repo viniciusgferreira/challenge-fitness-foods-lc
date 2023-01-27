@@ -1,0 +1,113 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "REST API",
+    "description": ""
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/products/{code}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "406": {
+            "description": "Not Acceptable"
+          }
+        }
+      }
+    },
+    "/products": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  }
+}
