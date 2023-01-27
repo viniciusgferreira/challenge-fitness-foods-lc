@@ -11,7 +11,7 @@
     ]
   },
   "scripts": {
-    "test": "jest",
+    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
     "start": "node src/index.js",
     "dev": "node --watch src/index.js",
     "swagger": "node src/api/v1/docs/swagger.js"
