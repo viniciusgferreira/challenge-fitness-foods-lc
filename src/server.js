@@ -21,8 +21,7 @@ cron.schedule(process.env.CRON_EXPRESSION, () => {
 });
 
 // START SERVER
-const PORT = process.env.PORT || 3000;
-const app = express();
+export const app = express();
 
 //JSON PARSER
 app.use(express.json());
@@ -32,7 +31,7 @@ const swaggerFile = JSON.parse(fs.readFileSync('./src/api/v1/docs/swagger_output
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 // ROUTER
-app.use('/v1', router);
+app.use('/api/v1', router);
 
-app.listen(PORT, () => console.log(`API Fitness Foods is running on port:${PORT}`));
+
 
