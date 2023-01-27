@@ -11,7 +11,7 @@
 [x] Criar o DB e configurar acessos e links
 [x] .env com dados de acesso
 [x] Criar o Model com base no formato disponibilizado
-[ ] Importar os produtos
+[x] Importar os produtos
 
 ## API REST
 [x] Configurar o projeto npm e instalar as dependencias que serão usadas
@@ -19,7 +19,7 @@
 [x] Criar a conexão com o DB
 [x] Criar a estrutura de diretórios
 [x] Criar um router para controlar as URI's
-[ ] Criar a rota GET (/) com: Detalhes da API, se conexão leitura e escritura com a base de dados está OK, horário da última vez que o CRON foi executado, tempo online e uso de memória
+[x] Criar a rota GET (/) com: Detalhes da API, se conexão leitura e escritura com a base de dados está OK, horário da última vez que o CRON foi executado, tempo online e uso de memória
 [X] Criar a rota PUT /products/:code - para cadastrar atualizações do Projeto Web
 [x] Criar a rota DELETE /products/:code - para mudar o status do produto para trash
 [x] Criar a rota GET /products/:code - para listar as informações de um único produto
@@ -30,11 +30,11 @@
 [x] Criar processo de download dos arquivos
 [x] Extrair os arquivos
 [x] Add campos imported_t e status
-[ ] Criar cron job
+[x] Criar cron job
 [x] Criar Model de importações
 [x] Limitar importação para 100 produtos
-[ ] Testar com tempo de 10min
-[ ] Configurar para importar a cada 24h - 3h da manhã onde o tráfego é baixo
+[x] Testar com tempo de 10min
+[x] Configurar para importar a cada 24h - 3h30 da manhã onde o tráfego é baixo
 
 ## Documentação
 [ ] Criar Readme com instruções de configuração e build do projeto
