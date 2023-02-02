@@ -9,8 +9,8 @@ import { cleanFiles } from './cleanFiles.js';
 import { get100ProductsFromFile } from './get100ProductsFromFile.js';
 
 const tmpDir = process.cwd() + '/src/utils/tmp/';
-const baseURL = 'https://challenges.coode.sh/food/data/json/';
-const indexFile = 'index.txt';
+const baseURL = process.env.BASE_URL;
+const indexFile = process.env.INDEX_FILE;
 
 export default async function importProducts() {
   const importInfo = {};
